@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Player - Bigg Boss</title>
+    <meta name="theme-color" content="#0c0a1a" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Bigg Boss 19 Feed"
+      href="https://odysee.com/$/rss/@Biggboss:e"
+    />
+    <link rel="preconnect" href="https://odysee.com" crossorigin />
+    <link rel="preconnect" href="https://api.allorigins.win" crossorigin />
+    <link rel="dns-prefetch" href="//odysee.com" />
+    <link rel="dns-prefetch" href="//api.allorigins.win" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta
+      name="description"
+      content="Watch Bigg Boss 19 episodes, highlights, and exclusive content. Latest videos from India's most popular reality TV show with contestants, drama, and entertainment."
+    />
+    <meta
+      name="keywords"
+      content="Bigg Boss 19, Bigg Boss season 19, reality TV, Indian television, entertainment, episodes, highlights, contestants, drama, Salman Khan"
+    />
+    <meta name="author" content="Bigg Boss" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-domain.com/player.html" />
+    <meta
+      property="og:title"
+      content="Watch Bigg Boss 19 Episodes - Latest Videos"
+    />
+    <meta
+      property="og:description"
+      content="Stream the latest Bigg Boss 19 episodes, highlights, and exclusive content. India's most popular reality TV show."
+    />
+    <meta
+      property="og:image"
+      content="https://your-domain.com/biggboss-og-image.jpg"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://your-domain.com/player.html"
+    />
+    <meta
+      property="twitter:title"
+      content="Watch Bigg Boss 19 Episodes - Latest Videos"
+    />
+    <meta
+      property="twitter:description"
+      content="Stream the latest Bigg Boss 19 episodes, highlights, and exclusive content."
+    />
+    <meta
+      property="twitter:image"
+      content="https://your-domain.com/biggboss-og-image.jpg"
+    />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://your-domain.com/player.html" />
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": "Bigg Boss 19 Episodes",
+        "description": "Watch the latest episodes and highlights from Bigg Boss 19, India's most popular reality TV show.",
+        "uploadDate": "2025-09-05",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Bigg Boss",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://your-domain.com/logo.png"
+          }
+        },
+        "genre": "Reality TV",
+        "thumbnailUrl": "https://your-domain.com/default-thumb.jpg",
+        "potentialAction": {
+          "@type": "WatchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://your-domain.com/player.html?title={title}"
+          }
+        },
+        "interactionStatistic": {
+          "@type": "InteractionCounter",
+          "interactionType": { "@type": "WatchAction" },
+          "userInteractionCount": 0
+        }
+      }
+    </script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="player-styles.css" />
+    <script
+      type="text/javascript"
+      src="//herringbucket.com/3e/23/3f/3e233f8c7cd6f06ad07bb58707cfb3dd.js"
+    ></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <i class="fas fa-play-circle"></i>
+            <h1>Biggboss</h1>
+          </div>
+          <nav class="nav">
+            <a href="index.html" class="nav-link">
+              <i class="fas fa-arrow-left"></i>
+              Back to Home
+            </a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <!-- Top Advertisement Banner -->
+        <section class="ad-banner" id="topAd" aria-label="Advertisement">
+          <div class="ad-inner">
+            <script type="text/javascript">
+              atOptions = {
+                key: "c8a6456b1d198108c008f37c86c60f46",
+                format: "iframe",
+                height: 60,
+                width: 468,
+                params: {},
+              };
+            </script>
+            <script
+              type="text/javascript"
+              src="//herringbucket.com/c8a6456b1d198108c008f37c86c60f46/invoke.js"
+            ></script>
+            <noscript><div class="ad-fallback">Advertisement</div></noscript>
+          </div>
+        </section>
+
+        <div class="player-container">
+          <div class="video-player-section">
+            <div class="video-wrapper">
+              <iframe
+                id="videoPlayer"
+                src=""
+                frameborder="0"
+                allowfullscreen
+                sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                loading="lazy"
+              >
+              </iframe>
+            </div>
+          </div>
+
+          <div class="video-info-section">
+            <div class="video-details">
+              <h1 id="videoTitle" class="video-title">Loading...</h1>
+              <div class="video-meta">
+                <span id="videoDate" class="video-date">
+                  <i class="fas fa-calendar"></i>
+                  Loading...
+                </span>
+              </div>
+              <div class="video-description">
+                <h3>Description</h3>
+                <p id="videoDescription" class="clamped">Loading...</p>
+                <button
+                  id="descToggle"
+                  class="desc-toggle"
+                  type="button"
+                  style="display: none"
+                >
+                  <span class="more-text">Show More</span>
+                  <span class="less-text" style="display: none">Show Less</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="video-actions">
+              <button class="action-btn share-btn" onclick="shareVideo()">
+                <i class="fas fa-share"></i>
+                Share
+              </button>
+              <button
+                class="action-btn fullscreen-btn"
+                onclick="toggleFullscreen()"
+              >
+                <i class="fas fa-expand"></i>
+                Fullscreen
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mid-page Advertisement (after player before show info) -->
+        <section
+          class="ad-banner ad-banner-mid"
+          id="midAd"
+          aria-label="Advertisement"
+        >
+          <div class="ad-inner">
+            <script type="text/javascript">
+              atOptions = {
+                key: "c8a6456b1d198108c008f37c86c60f46",
+                format: "iframe",
+                height: 60,
+                width: 468,
+                params: {},
+              };
+            </script>
+            <script
+              type="text/javascript"
+              src="//herringbucket.com/c8a6456b1d198108c008f37c86c60f46/invoke.js"
+            ></script>
+            <noscript><div class="ad-fallback">Advertisement</div></noscript>
+          </div>
+        </section>
+
+        <!-- Bigg Boss 19 Information Section -->
+        <div class="biggboss-info-section">
+          <div class="info-container">
+            <div class="info-header">
+              <h2 class="info-title">About Bigg Boss 19</h2>
+              <p class="info-subtitle">
+                India's Most Popular Reality Show Returns
+              </p>
+            </div>
+
+            <div class="info-content">
+              <div class="info-text">
+                <p>
+                  Bigg Boss 19 is the latest season of India's biggest celebrity
+                  reality show. Contestants live together under 24/7 cameras,
+                  face tasks, nominations and eliminations, all guided by Bigg
+                  Boss and hosted by Salman Khan.
+                </p>
+                <p>
+                  Expect daily drama, alliances, surprise twists and Weekend Ka
+                  Vaar highlights as they compete to win the season.
+                </p>
+                <div class="schedule-text">
+                  <h3>Watch Schedule:</h3>
+                  <p>
+                    <strong>Mon–Fri:</strong> 10:00 PM IST &nbsp;|&nbsp;
+                    <strong>Sat–Sun:</strong> 9:30 PM IST (Weekend Ka Vaar)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Lower Advertisement (between info and related videos) -->
+        <section
+          class="ad-banner ad-banner-lower"
+          id="lowerAd"
+          aria-label="Advertisement"
+        >
+          <div class="ad-inner">
+            <script type="text/javascript">
+              atOptions = {
+                key: "c8a6456b1d198108c008f37c86c60f46",
+                format: "iframe",
+                height: 60,
+                width: 468,
+                params: {},
+              };
+            </script>
+            <script
+              type="text/javascript"
+              src="//herringbucket.com/c8a6456b1d198108c008f37c86c60f46/invoke.js"
+            ></script>
+            <noscript><div class="ad-fallback">Advertisement</div></noscript>
+          </div>
+        </section>
+
+        <div class="related-videos-section">
+          <h2 class="section-title">More Episodes</h2>
+          <div class="related-videos-grid" id="relatedVideosGrid">
+            <!-- Related videos will be dynamically inserted here -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Sticky Mini Bar -->
+    <div id="miniPlayerBar" class="mini-player-bar" aria-hidden="true">
+      <div class="mini-inner">
+        <div class="mini-title" id="miniBarTitle">Loading...</div>
+        <div class="mini-actions">
+          <button class="mini-btn" id="miniShare" title="Share">
+            <i class="fas fa-share"></i>
+          </button>
+          <button class="mini-btn" id="miniFullscreen" title="Fullscreen">
+            <i class="fas fa-expand"></i>
+          </button>
+          <button class="mini-btn" id="miniScrollTop" title="Back to Top">
+            <i class="fas fa-arrow-up"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer footer-compact">
+      <div class="container">
+        <div class="footer-compact-row">
+          <div class="footer-mini-brand">
+            <i class="fas fa-tv"></i>
+            <span class="brand-text">BiggBoss</span>
+          </div>
+          <p class="footer-copy">&copy; 2025 Biggboss</p>
+          <nav class="footer-mini-nav" aria-label="Footer links">
+            <a href="index.html" class="mini-link">Home</a>
+            <a
+              href="https://herringbucket.com/v0wq71adv?key=dc70a275f086dcce3a13a66e82eb18ba"
+              class="mini-link"
+              target="_blank"
+              rel="noopener"
+              >Link</a
+            >
+            <button
+              class="mini-link"
+              onclick="window.scrollTo({top:0,behavior:'smooth'})"
+            >
+              ↑
+            </button>
+          </nav>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Side Rail Ads -->
+    <aside
+      class="side-ads side-ads-left"
+      aria-label="Left Advertisement"
+      id="leftRailAd"
+    >
+      <div class="side-ad-inner">
+        <script type="text/javascript">
+          atOptions = {
+            key: "c9c6866d58d3e57ec49b53ca5f9567b3",
+            format: "iframe",
+            height: 600,
+            width: 160,
+            params: {},
+          };
+        </script>
+        <script
+          type="text/javascript"
+          src="//herringbucket.com/c9c6866d58d3e57ec49b53ca5f9567b3/invoke.js"
+        ></script>
+        <noscript><div class="side-ad-fallback">Ad</div></noscript>
+      </div>
+    </aside>
+    <aside
+      class="side-ads side-ads-right"
+      aria-label="Right Advertisement"
+      id="rightRailAd"
+    >
+      <div class="side-ad-inner">
+        <script type="text/javascript">
+          atOptions = {
+            key: "c9c6866d58d3e57ec49b53ca5f9567b3",
+            format: "iframe",
+            height: 600,
+            width: 160,
+            params: {},
+          };
+        </script>
+        <script
+          type="text/javascript"
+          src="//herringbucket.com/c9c6866d58d3e57ec49b53ca5f9567b3/invoke.js"
+        ></script>
+        <noscript><div class="side-ad-fallback">Ad</div></noscript>
+      </div>
+    </aside>
+
+    <script src="player.js"></script>
+    <script>
+      (function () {
+        function toggleSideAdsFlag() {
+          if (window.innerWidth > 1400) {
+            document.body.classList.add("has-side-ads");
+          } else {
+            document.body.classList.remove("has-side-ads");
+          }
+        }
+        window.addEventListener("resize", toggleSideAdsFlag);
+        toggleSideAdsFlag();
+      })();
+    </script>
+    <script
+      type="text/javascript"
+      src="//herringbucket.com/cc/61/82/cc6182917c076f1085654aaef31bb7b1.js"
+    ></script>
+  </body>
+</html>

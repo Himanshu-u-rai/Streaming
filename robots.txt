@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block query parameters that could create duplicates
+Disallow: /*?sort=
+Disallow: /*?q=
+
+Sitemap: https://your-domain.com/sitemap.xml
