@@ -237,7 +237,7 @@ function createVideoCard(video, index) {
 
   card.innerHTML = `
         <div class="video-thumbnail">
-            <img src="${video.thumbnail}" alt="${video.title}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"400\\" height=\\"300\\" viewBox=\\"0 0 400 300\\"><rect width=\\"400\\" height=\\"300\\" fill=\\"%236366f1\\" opacity=\\"0.1\\"/><text x=\\"200\\" y=\\"150\\" text-anchor=\\"middle\\" font-family=\\"Inter, sans-serif\\" font-size=\\"18\\" fill=\\"%236366f1\\">🎬</text></svg>'">
+            <img src="${video.thumbnail}" alt="${video.title}" loading="lazy">
             <div class="play-overlay">
                 <i class="fas fa-play"></i>
             </div>
