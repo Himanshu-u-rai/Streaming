@@ -22,6 +22,26 @@ const FEED_SOURCES = [
   }),
 ];
 
+// --- Added SEO helper utilities ---
+function slugify(title) {
+  return (title || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+function generateRecap(text) {
+  const src = (text || "").toLowerCase();
+  const tags = [];
+  if (/nomination/.test(src)) tags.push("Nominations");
+  if (/elimination|evict/.test(src)) tags.push("Elimination");
+  if (/wildcard/.test(src)) tags.push("Wildcard");
+  if (/task/.test(src)) tags.push("Task");
+  if (/captain/.test(src)) tags.push("Captaincy");
+  return tags.length ? tags.slice(0, 3).join(" • ") : "Episode highlights";
+}
+
 // DOM elements
 const videosGrid = document.getElementById("videosGrid");
 const loadingSection = document.getElementById("loading");
@@ -104,11 +124,14 @@ async function fetchFeedWithFallback() {
 
 // Update on-page feed timestamp / source info
 function updateFeedTimestamp(lastBuildDate, sourceIndex, isError = false) {
-  const el = document.getElementById("feedTimestamp");
-  if (!el) return;
+  const wrapper = document.getElementById("feedTimestamp");
+  const timeEl = document.getElementById("feedTime");
+  if (!wrapper || !timeEl) return;
+  const now = new Date();
   if (isError) {
-    el.textContent = `Feed refresh failed (${new Date().toLocaleTimeString()})`;
-    el.classList.add("feed-error");
+    timeEl.textContent = `Feed refresh failed (${now.toLocaleTimeString()})`;
+    timeEl.removeAttribute("datetime");
+    wrapper.classList.add("feed-error");
     return;
   }
   const sourceLabels = ["AllOrigins", "Isomorphic CORS", "Direct"];
@@ -116,10 +139,18 @@ function updateFeedTimestamp(lastBuildDate, sourceIndex, isError = false) {
     sourceIndex >= 0
       ? sourceLabels[sourceIndex] || `Source ${sourceIndex}`
       : "Unknown";
-  el.textContent = lastBuildDate
-    ? `Feed updated: ${lastBuildDate} | via ${label}`
-    : `Fetched via ${label} at ${new Date().toLocaleTimeString()}`;
-  el.classList.remove("feed-error");
+  if (lastBuildDate) {
+    timeEl.textContent = `Feed updated: ${lastBuildDate} | via ${label}`;
+    // Attempt to parse RFC2822 date for datetime attribute
+    const parsed = Date.parse(lastBuildDate);
+    if (!isNaN(parsed)) {
+      timeEl.setAttribute("datetime", new Date(parsed).toISOString());
+    }
+  } else {
+    timeEl.textContent = `Fetched via ${label} at ${now.toLocaleTimeString()}`;
+    timeEl.setAttribute("datetime", now.toISOString());
+  }
+  wrapper.classList.remove("feed-error");
 }
 
 // Get text content from XML element
@@ -162,11 +193,34 @@ function extractThumbnail(item) {
 // Display videos in the grid
 function displayVideos(videos) {
   videosGrid.innerHTML = "";
-
+  const listElements = [];
   videos.forEach((video, index) => {
     const videoCard = createVideoCard(video, index);
     videosGrid.appendChild(videoCard);
+    listElements.push({
+      "@type": "ListItem",
+      position: index + 1,
+      url: video.link,
+      name: video.title,
+    });
   });
+  injectItemListSchema(listElements);
+}
+
+function injectItemListSchema(items) {
+  if (!items.length) return;
+  const existing = document.getElementById("itemListSchema");
+  if (existing) existing.remove();
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.id = "itemListSchema";
+  script.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Bigg Boss 19 Episodes",
+    itemListElement: items.slice(0, 50), // cap to first 50 to keep payload lean
+  });
+  document.head.appendChild(script);
 }
 
 // Create individual video card
@@ -178,6 +232,8 @@ function createVideoCard(video, index) {
   const formattedDate = formatDate(video.pubDate);
   const cleanDescription = cleanHtml(video.description);
   const truncatedDescription = truncateText(cleanDescription, 120);
+  const slug = slugify(video.title);
+  const recap = generateRecap(video.description);
 
   card.innerHTML = `
         <div class="video-thumbnail">
@@ -195,10 +251,10 @@ function createVideoCard(video, index) {
                     ${formattedDate}
                 </span>
             </div>
+            <p class="video-recap visually-hidden">Recap: ${recap}</p>
         </div>
     `;
 
-  // Add click handler to navigate to player page
   card.addEventListener("click", () => {
     const playerUrl = `player.html?title=${encodeURIComponent(
       video.title
@@ -206,7 +262,7 @@ function createVideoCard(video, index) {
       video.description
     )}&date=${encodeURIComponent(video.pubDate)}&guid=${encodeURIComponent(
       video.guid
-    )}`;
+    )}&slug=${encodeURIComponent(slug)}`;
     window.location.href = playerUrl;
   });
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Video Player - Bigg Boss</title>
+    <title>Bigg Boss 19 Episode Player</title>
     <meta name="theme-color" content="#0c0a1a" />
     <link
       rel="alternate"
@@ -69,14 +69,14 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://your-domain.com/player.html" />
 
-    <!-- Structured Data for SEO -->
-    <script type="application/ld+json">
+    <!-- Base placeholder structured data; dynamic per episode will be injected by player.js -->
+    <script type="application/ld+json" id="baseVideoSchema">
       {
         "@context": "https://schema.org",
         "@type": "VideoObject",
-        "name": "Bigg Boss 19 Episodes",
-        "description": "Watch the latest episodes and highlights from Bigg Boss 19, India's most popular reality TV show.",
-        "uploadDate": "2025-09-05",
+        "name": "Bigg Boss 19 Episode",
+        "description": "Watch Bigg Boss 19 episodes and highlights.",
+        "thumbnailUrl": "https://your-domain.com/default-thumb.jpg",
         "publisher": {
           "@type": "Organization",
           "name": "Bigg Boss",
@@ -85,20 +85,28 @@
             "url": "https://your-domain.com/logo.png"
           }
         },
-        "genre": "Reality TV",
-        "thumbnailUrl": "https://your-domain.com/default-thumb.jpg",
-        "potentialAction": {
-          "@type": "WatchAction",
-          "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": "https://your-domain.com/player.html?title={title}"
-          }
-        },
-        "interactionStatistic": {
-          "@type": "InteractionCounter",
-          "interactionType": { "@type": "WatchAction" },
-          "userInteractionCount": 0
-        }
+        "genre": "Reality TV"
+      }
+    </script>
+    <script type="application/ld+json" id="breadcrumbSchema">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://your-domain.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Episodes",
+            "item": "https://your-domain.com/"
+          },
+          { "@type": "ListItem", "position": 3, "name": "Episode" }
+        ]
       }
     </script>
 
@@ -177,16 +185,24 @@
 
           <div class="video-info-section">
             <div class="video-details">
-              <h1 id="videoTitle" class="video-title">Loading...</h1>
+              <h1 id="videoTitle" class="video-title" itemprop="name">
+                Loading...
+              </h1>
               <div class="video-meta">
-                <span id="videoDate" class="video-date">
+                <span
+                  id="videoDate"
+                  class="video-date"
+                  itemprop="datePublished"
+                >
                   <i class="fas fa-calendar"></i>
                   Loading...
                 </span>
               </div>
               <div class="video-description">
                 <h3>Description</h3>
-                <p id="videoDescription" class="clamped">Loading...</p>
+                <p id="videoDescription" class="clamped" itemprop="description">
+                  Loading...
+                </p>
                 <button
                   id="descToggle"
                   class="desc-toggle"

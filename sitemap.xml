@@ -13,3 +13,5 @@
     <priority>0.8</priority>
   </url>
 </urlset>
+
+<!-- NOTE: Consider generating individual episode URLs (player.html?guid=XYZ) as canonical pretty paths like /episode/slug and appending them here with <lastmod>. -->

@@ -49,6 +49,32 @@
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
+/* Accessibility Utilities */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+.hero-sub {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: -0.25rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -201,12 +227,32 @@ body {
   background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   border-radius: 24px;
-  padding: 4rem;
-  margin: 3rem 0 4rem;
+  padding: 2.5rem 0.1rem;
+  margin: 2rem 0 2.5rem;
   box-shadow: 0 20px 60px var(--shadow-lg);
   border: 1px solid var(--glass-border);
   position: relative;
   overflow: hidden;
+}
+
+/* Performance & accessibility adjustments */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .refresh-btn i {
+    transform: none !important;
+  }
+}
+
+@media (min-width: 801px) {
+  .hero,
+  .search-filter {
+    backdrop-filter: blur(14px) saturate(160%);
+  }
 }
 
 .hero::before {
@@ -230,7 +276,7 @@ body {
 
 .hero-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .hero-title {
@@ -244,7 +290,7 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   line-height: 1.1;
   letter-spacing: -0.02em;
   text-shadow: 0 4px 8px var(--shadow-colored);
@@ -255,7 +301,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 /* Ad Banner */
@@ -427,14 +473,14 @@ body {
 
 .hero-description {
   text-align: left;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.75rem;
 }
 
 .hero-description p {
   font-size: 1.1rem;
   line-height: 1.7;
   color: var(--text-secondary);
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.9rem;
 }
 
 .hero-description p:last-child {
@@ -524,12 +570,12 @@ body {
 
 /* Controls Section */
 .controls {
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
 }
 
 .controls-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .controls-title {
@@ -555,12 +601,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
   background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  padding: 2.5rem;
-  border-radius: 24px;
+  padding: 1.5rem;
+  border-radius: 20px;
   box-shadow: 0 16px 48px var(--shadow-lg);
   border: 1px solid var(--glass-border);
   position: relative;
@@ -592,22 +638,22 @@ body {
 
 .search-box i {
   position: absolute;
-  left: 20px;
+  left: 16px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-light);
-  font-size: 1.1rem;
+  font-size: 1rem;
   z-index: 2;
 }
 
 .search-box input {
   width: 100%;
-  padding: 18px 24px 18px 60px;
+  padding: 14px 20px 14px 50px;
   border: 2px solid var(--border);
-  border-radius: 20px;
+  border-radius: 18px;
   background: var(--background-card);
   color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: 1rem;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -635,17 +681,17 @@ body {
 .filter-options {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   flex-shrink: 0;
 }
 
 .filter-options select {
-  padding: 16px 20px;
+  padding: 12px 16px;
   border: 2px solid var(--border);
-  border-radius: 16px;
+  border-radius: 14px;
   background: var(--background-card);
   color: var(--text-primary);
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
@@ -1508,20 +1554,20 @@ body {
   }
 
   .hero {
-    padding: 1.75rem 1.25rem 2rem;
-    margin: 1.5rem 0 2.5rem;
+    padding: 1.5rem 0.5rem 1.75rem;
+    margin: 1.25rem 0 2rem;
   }
 
   .hero-header {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .hero-description {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 
   .hero-description p {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.65rem;
   }
 
   .hero-title {
@@ -1539,7 +1585,7 @@ body {
 
   .hero-actions {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .hero-stats {
@@ -1549,9 +1595,9 @@ body {
 
   .search-filter {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: stretch;
-    padding: 2rem;
+    padding: 1.25rem;
   }
 
   .search-box {
@@ -1605,8 +1651,8 @@ body {
 
 @media (max-width: 480px) {
   .hero {
-    padding: 1.1rem 1rem 1.25rem;
-    margin: 1rem 0 1.75rem;
+    padding: 1rem 0.375rem 1.125rem;
+    margin: 0.875rem 0 1.5rem;
   }
 
   .hero-title {
@@ -1615,11 +1661,11 @@ body {
   }
 
   .hero-header {
-    margin-bottom: 1rem;
+    margin-bottom: 0.875rem;
   }
 
   .hero-description {
-    margin-bottom: 1.1rem;
+    margin-bottom: 1rem;
   }
 
   /* Show only first paragraph and clamp lines */

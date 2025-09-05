@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Biggboss - Latest Videos</title>
+    <title>Bigg Boss 19 Episodes – Latest Full Episodes & Highlights</title>
+    <meta name="application-name" content="Bigg Boss 19 Episodes" />
+    <meta name="author" content="Biggboss" />
     <meta
       name="description"
       content="Watch the latest Bigg Boss Season 19 full episodes, highlights, nominations, eliminations and weekend special moments. Fast updated, mobile friendly streaming list."
@@ -25,6 +27,8 @@
     />
     <meta property="og:url" content="https://your-domain.com/" />
     <meta property="og:image" content="https://your-domain.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Bigg Boss 19 – Latest Episodes" />
     <meta
@@ -32,6 +36,8 @@
       content="Stream Bigg Boss 19 full episodes and highlights."
     />
     <meta name="twitter:image" content="https://your-domain.com/og-image.jpg" />
+    <meta name="twitter:site" content="@yourhandle" />
+    <meta name="twitter:creator" content="@yourhandle" />
     <link
       rel="sitemap"
       type="application/xml"
@@ -125,10 +131,16 @@
         </section>
 
         <!-- Redesigned Hero Section -->
-        <section class="hero">
-          <div class="hero-content">
+        <section class="hero" role="region" aria-labelledby="heroTitle">
+          <div class="hero-content" id="heroContent">
             <div class="hero-header">
-              <h1 class="hero-title">Bigg Boss Season 19 Episodes (2025)</h1>
+              <h1 class="hero-title" id="heroTitle">
+                Bigg Boss Season 19 Episodes (2025)
+              </h1>
+              <p class="hero-sub" id="heroSub">
+                Daily updated full episodes, nominations, eliminations & weekend
+                ka vaar highlights.
+              </p>
               <div class="hero-meta">
                 <span class="year">2025</span>
                 <div class="genres">
@@ -188,14 +200,21 @@
         </section>
 
         <!-- Filter and Sort Section -->
-        <section class="controls">
+        <section
+          class="controls"
+          role="search"
+          aria-labelledby="searchFilterHeading"
+        >
           <div class="controls-header">
-            <h2 class="controls-title">Search & Filter</h2>
+            <h2 class="controls-title" id="searchFilterHeading">
+              Search & Filter Episodes
+            </h2>
             <p class="controls-subtitle">
               Find your favorite Bigg Boss episodes
             </p>
             <p
               id="feedTimestamp"
+              aria-live="polite"
               style="
                 margin-top: 0.4rem;
                 font-size: 0.75rem;
@@ -204,7 +223,7 @@
                 letter-spacing: 0.5px;
               "
             >
-              Loading feed...
+              <time id="feedTime" datetime="">Loading feed...</time>
             </p>
           </div>
           <div class="search-filter">
@@ -271,14 +290,16 @@
         </section>
 
         <!-- Featured Most Recent Video -->
-        <section
-          class="featured-video-section"
-          id="featuredVideoSection"
-          style="display: none"
-        ></section>
-
-        <section class="videos-grid" id="videosGrid">
-          <!-- Videos will be dynamically inserted here -->
+        <section class="episodes" aria-labelledby="episodesHeading">
+          <h2 id="episodesHeading" class="visually-hidden">Latest Episodes</h2>
+          <section
+            class="featured-video-section"
+            id="featuredVideoSection"
+            style="display: none"
+          ></section>
+          <section class="videos-grid" id="videosGrid" aria-live="off">
+            <!-- Videos will be dynamically inserted here -->
+          </section>
         </section>
 
         <section class="error" id="error" style="display: none">
@@ -295,10 +316,29 @@
             </button>
           </div>
         </section>
+        <!-- Moved FAQ section above footer for proper semantics -->
+        <section class="faq" id="faq" aria-labelledby="faqHeading">
+          <div class="container">
+            <h2 id="faqHeading">Bigg Boss 19 FAQ</h2>
+            <details>
+              <summary>How often are new episodes added?</summary>
+              <p>
+                Episodes and highlights are added daily shortly after airing.
+              </p>
+            </details>
+            <details>
+              <summary>Do you list nominations and eliminations?</summary>
+              <p>
+                Yes—key nomination, eviction and wildcard update highlights are
+                included in descriptions.
+              </p>
+            </details>
+          </div>
+        </section>
       </div>
     </main>
 
-    <footer class="footer footer-compact">
+    <footer class="footer footer-compact" role="contentinfo">
       <div class="container">
         <div class="footer-compact-row">
           <div class="footer-mini-brand">
@@ -324,6 +364,30 @@
           </nav>
         </div>
       </div>
+      <script type="application/ld+json" id="faqSchema">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How often are new episodes added?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Episodes and highlights are added daily shortly after airing."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you list nominations and eliminations?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, nomination, eviction and wildcard update highlights are included in episode descriptions."
+              }
+            }
+          ]
+        }
+      </script>
     </footer>
 
     <!-- Side Rail Ads -->

@@ -11,6 +11,7 @@ function getVideoDataFromUrl() {
     description: urlParams.get("description"),
     pubDate: urlParams.get("date"),
     guid: urlParams.get("guid"),
+    slug: urlParams.get("slug"),
   };
 }
 
@@ -108,27 +109,39 @@ function loadVideoPlayer(videoData) {
   }
 
   // Update structured data
-  const structuredData = {
+  const baseThumb =
+    videoData.thumbnail || "https://your-domain.com/default-thumb.jpg";
+  const episodeStructured = {
+    "@context": "https://schema.org",
+    "@type": "Episode",
+    name: videoData.title,
+    description: cleanHtml(videoData.description).substring(0, 500),
+    datePublished: videoData.pubDate,
+    episodeNumber: deriveEpisodeNumber(videoData.title),
+    partOfSeason: {
+      "@type": "TVSeason",
+      seasonNumber: 19,
+      name: "Bigg Boss Season 19",
+    },
+    partOfSeries: { "@type": "TVSeries", name: "Bigg Boss" },
+    thumbnailUrl: baseThumb,
+    url: window.location.href,
+  };
+
+  const videoStructured = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
     name: videoData.title,
     description: cleanHtml(videoData.description).substring(0, 500),
     uploadDate: videoData.pubDate,
-    thumbnailUrl:
-      videoData.thumbnail || "https://your-domain.com/default-thumb.jpg",
+    thumbnailUrl: baseThumb,
     url: window.location.href,
     contentUrl: videoData.link,
-    potentialAction: {
-      "@type": "WatchAction",
-      target: window.location.href,
-    },
+    potentialAction: { "@type": "WatchAction", target: window.location.href },
     publisher: {
       "@type": "Organization",
       name: "Bigg Boss",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://your-domain.com/logo.png",
-      },
+      logo: { "@type": "ImageObject", url: "https://your-domain.com/logo.png" },
     },
     genre: "Reality TV",
     keywords: [
@@ -140,11 +153,8 @@ function loadVideoPlayer(videoData) {
     ],
   };
 
-  // Inject (append new script so static one can remain as baseline)
-  const dynLd = document.createElement("script");
-  dynLd.type = "application/ld+json";
-  dynLd.textContent = JSON.stringify(structuredData);
-  document.head.appendChild(dynLd);
+  injectStructuredData([episodeStructured, videoStructured]);
+  updateBreadcrumb(videoData.title);
 
   // Description toggle feature
   function initDescriptionToggle() {
@@ -224,6 +234,54 @@ function loadVideoPlayer(videoData) {
       showVideoError(videoData.link);
     }
   }, 10000);
+
+  // If slug present, adjust canonical link dynamically
+  if (videoData.slug) {
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
+      document.head.appendChild(canonical);
+    }
+    canonical.href = `https://your-domain.com/episode/${videoData.slug}`;
+  }
+}
+
+function deriveEpisodeNumber(title) {
+  if (!title) return undefined;
+  const match = title.match(/(?:Episode|Ep|Day|Day\s*)(\d{1,3})/i);
+  if (match) return parseInt(match[1], 10);
+  return undefined;
+}
+
+function injectStructuredData(objects) {
+  if (!Array.isArray(objects)) return;
+  const existing = document.querySelectorAll(
+    'script[data-dynamic-schema="true"]'
+  );
+  existing.forEach((n) => n.remove());
+  objects.forEach((obj) => {
+    const s = document.createElement("script");
+    s.type = "application/ld+json";
+    s.setAttribute("data-dynamic-schema", "true");
+    s.textContent = JSON.stringify(obj);
+    document.head.appendChild(s);
+  });
+}
+
+function updateBreadcrumb(epTitle) {
+  const crumb = document.getElementById("breadcrumbSchema");
+  if (!crumb) return;
+  try {
+    const data = JSON.parse(crumb.textContent.trim());
+    if (data.itemListElement && data.itemListElement.length >= 3) {
+      data.itemListElement[2].name = epTitle;
+      data.itemListElement[2].item = window.location.href;
+      crumb.textContent = JSON.stringify(data);
+    }
+  } catch (e) {
+    console.warn("Breadcrumb schema update failed", e);
+  }
 }
 
 function showVideoError(originalUrl) {
@@ -306,6 +364,28 @@ function displayRelatedVideos(videos) {
     const videoCard = createRelatedVideoCard(video);
     grid.appendChild(videoCard);
   });
+  injectRelatedSchema(videos);
+}
+
+function injectRelatedSchema(videos) {
+  if (!videos || !videos.length) return;
+  const existing = document.getElementById("relatedItemList");
+  if (existing) existing.remove();
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.id = "relatedItemList";
+  script.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Related Bigg Boss Episodes",
+    itemListElement: videos.map((v, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: v.link,
+      name: v.title,
+    })),
+  });
+  document.head.appendChild(script);
 }
 
 // Create related video card
