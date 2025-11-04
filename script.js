@@ -1,5 +1,5 @@
 // RSS Feed URL (base)
-const RSS_URL = "https://odysee.com/$/rss/@Biggboss:e";
+const RSS_URL = "https://odysee.com/$/rss/@Biggboss:4";
 
 // Proxy strategies (ordered). Each receives the raw feed URL and returns a fetch URL.
 const FEED_SOURCES = [
