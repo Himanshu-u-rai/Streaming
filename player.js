@@ -1,6 +1,26 @@
 // RSS Feed URL
-const RSS_URL = "https://odysee.com/$/rss/@Biggboss:e";
-const CORS_PROXY = "https://api.allorigins.win/get?url=";
+const RSS_URL = "https://odysee.com/$/rss/@Biggboss:4";
+
+// Proxy strategies (ordered). Each receives the raw feed URL and returns a fetch URL.
+const FEED_SOURCES = [
+  // AllOrigins JSON wrapper (has caching; we append a cache-buster query)
+  (url) => ({
+    mode: "json", // expect JSON with .contents
+    url: `https://api.allorigins.win/get?url=${encodeURIComponent(
+      url + (url.includes("?") ? "&" : "?") + "_=" + Date.now()
+    )}`,
+  }),
+  // isomorphic-git CORS proxy (returns raw XML)
+  (url) => ({
+    mode: "text",
+    url: `https://cors.isomorphic-git.org/${url}?_=${Date.now()}`,
+  }),
+  // Direct (may fail due to CORS, but attempt last)
+  (url) => ({
+    mode: "text",
+    url: url + (url.includes("?") ? "&" : "?") + "_=" + Date.now(),
+  }),
+];
 
 // Get video data from URL parameters
 function getVideoDataFromUrl() {
@@ -307,19 +327,14 @@ function showVideoError(originalUrl) {
   videoWrapper.appendChild(errorDiv);
 }
 
-// Load related videos
+// Load related videos with fallback
 async function loadRelatedVideos() {
+  showRelatedSkeletons();
+
   try {
-    showRelatedSkeletons();
-    const response = await fetch(`${CORS_PROXY}${encodeURIComponent(RSS_URL)}`);
-    const data = await response.json();
+    const { xmlDoc, sourceIndex } = await fetchFeedWithFallback();
+    console.log(`Related videos loaded via source ${sourceIndex}`);
 
-    if (!data.contents) {
-      throw new Error("No content received");
-    }
-
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(data.contents, "text/xml");
     const items = xmlDoc.querySelectorAll("item");
     const videos = [];
 
@@ -338,10 +353,56 @@ async function loadRelatedVideos() {
       }
     });
 
+    if (!videos.length) {
+      throw new Error("No videos found in feed");
+    }
+
     displayRelatedVideos(videos);
   } catch (error) {
     console.error("Error loading related videos:", error);
+    showRelatedVideosError();
   }
+}
+
+// Attempt to fetch the feed using multiple proxy strategies
+async function fetchFeedWithFallback() {
+  const errors = [];
+  for (let i = 0; i < FEED_SOURCES.length; i++) {
+    const cfg = FEED_SOURCES[i](RSS_URL);
+    try {
+      const resp = await fetch(cfg.url, { cache: "no-store" });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+      let xmlString = "";
+      if (cfg.mode === "json") {
+        const data = await resp.json();
+        if (!data?.contents) throw new Error("No .contents in JSON response");
+        xmlString = data.contents;
+      } else {
+        xmlString = await resp.text();
+      }
+
+      // Basic validation
+      if (!xmlString || !xmlString.includes("<rss"))
+        throw new Error("Invalid RSS content");
+
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+
+      if (xmlDoc.querySelector("parsererror"))
+        throw new Error("XML parse error");
+
+      return { xmlDoc, sourceIndex: i };
+    } catch (e) {
+      errors.push({ index: i, message: e.message });
+      console.warn(`Feed source ${i} failed:`, e.message);
+      continue;
+    }
+  }
+  throw new Error(
+    "All feed sources failed: " +
+      errors.map((e) => `#${e.index}:${e.message}`).join(", ")
+  );
 }
 
 function showRelatedSkeletons() {
@@ -353,6 +414,29 @@ function showRelatedSkeletons() {
     sk.className = "related-skeleton";
     grid.appendChild(sk);
   }
+}
+
+function showRelatedVideosError() {
+  const grid = document.getElementById("relatedVideosGrid");
+  if (!grid) return;
+
+  grid.innerHTML = `
+    <div class="related-error">
+      <div class="error-icon">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <h3>Unable to Load Related Videos</h3>
+      <p>We couldn't fetch related episodes at this time.</p>
+      <button class="retry-btn" onclick="loadRelatedVideos()">
+        <i class="fas fa-redo"></i>
+        Try Again
+      </button>
+      <a href="index.html" class="browse-all-btn">
+        <i class="fas fa-arrow-left"></i>
+        Browse All Episodes
+      </a>
+    </div>
+  `;
 }
 
 // Display related videos
