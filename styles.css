@@ -47,6 +47,9 @@
   --blur-backdrop: rgba(12, 10, 26, 0.9);
   --glass-bg: rgba(37, 38, 65, 0.8);
   --glass-border: rgba(255, 255, 255, 0.1);
+  /* Hero width variables (tweakable) */
+  --hero-max-width: 920px;
+  --hero-content-max: 760px;
 }
 
 /* Accessibility Utilities */
@@ -222,14 +225,17 @@ body {
   background-color: var(--surface);
 }
 
-/* Redesigned Hero Section */
+/* Redesigned Hero Section (compact) */
 .hero {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 24px;
-  padding: 2.5rem 0.1rem;
-  margin: 2rem 0 2.5rem;
-  box-shadow: 0 20px 60px var(--shadow-lg);
+  backdrop-filter: blur(16px) saturate(160%);
+  border-radius: 16px;
+  /* reduce vertical padding / margins to save space */
+  padding: 1.1rem 0.1rem;
+  /* center the hero and constrain its width on larger screens */
+  margin: 1rem auto 1.25rem;
+  max-width: var(--hero-max-width);
+  box-shadow: 0 10px 30px var(--shadow-lg);
   border: 1px solid var(--glass-border);
   position: relative;
   overflow: hidden;
@@ -268,7 +274,8 @@ body {
 }
 
 .hero-content {
-  max-width: 900px;
+  /* slightly narrower content so text lines wrap earlier and use less vertical room */
+  max-width: var(--hero-content-max);
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -276,12 +283,13 @@ body {
 
 .hero-header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .hero-title {
-  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
-  font-weight: 900;
+  /* smaller, tighter title to reduce hero height */
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  font-weight: 800;
   background: linear-gradient(
     135deg,
     var(--text-primary) 0%,
@@ -290,10 +298,10 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 1rem;
-  line-height: 1.1;
+  margin-bottom: 0.6rem;
+  line-height: 1.08;
   letter-spacing: -0.02em;
-  text-shadow: 0 4px 8px var(--shadow-colored);
+  text-shadow: 0 3px 6px var(--shadow-colored);
 }
 
 .hero-meta {
@@ -311,39 +319,56 @@ body {
   justify-content: center;
 }
 .ad-banner .ad-inner {
+  /* Shrink-wrap ads: remove extra card chrome so only the ad iframe shows */
   position: relative;
-  padding: 10px 16px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 12px 30px var(--shadow-lg);
-  display: flex;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 80px;
+  min-height: 0;
+}
+
+/* Row wrapper for two top ads */
+.ad-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: stretch;
+  margin: 1rem 0 0.9rem;
+  max-width: var(--hero-max-width);
+}
+.ad-row .ad-banner {
+  flex: 0 1 48%;
+  min-width: 280px;
+}
+
+@media (max-width: 900px) {
+  .ad-row {
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 0 12px;
+  }
+  .ad-row .ad-banner {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
 }
 .ad-banner .ad-inner::before {
-  content: "AD";
-  position: absolute;
-  top: 6px;
-  left: 10px;
-  font-size: 0.55rem;
-  letter-spacing: 1px;
-  font-weight: 700;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  opacity: 0.75;
+  /* hide decorative AD label (user requested only ad iframe be visible) */
+  display: none;
 }
 .ad-fallback {
   font-size: 0.75rem;
   color: var(--text-muted);
-  padding: 4px 8px;
-  border: 1px dashed var(--border);
-  border-radius: 6px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
 }
 /* Mid-page ad variant */
 .ad-banner-mid {
@@ -382,28 +407,20 @@ body {
 }
 .side-ad-inner {
   pointer-events: auto;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  padding: 6px 6px 10px;
-  border-radius: 18px;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 10px 30px var(--shadow-lg);
-  display: flex;
+  /* shrink-wrap side ads and remove card background */
+  background: transparent;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
 }
 .side-ad-inner::before {
-  content: "AD";
-  font-size: 0.55rem;
-  letter-spacing: 1px;
-  font-weight: 700;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  opacity: 0.7;
-  margin-bottom: 4px;
+  display: none;
 }
 .side-ad-fallback {
   width: 160px;
@@ -413,8 +430,8 @@ body {
   justify-content: center;
   font-size: 0.75rem;
   color: var(--text-muted);
-  border: 1px dashed var(--border);
-  border-radius: 10px;
+  border: none;
+  border-radius: 0;
 }
 @media (max-width: 1400px) {
   .side-ads {
@@ -436,9 +453,10 @@ body {
   }
   .ad-banner .ad-inner {
     width: 100%;
-    padding: 8px 10px;
-    border-radius: 14px;
-    min-height: 70px;
+    /* keep container full-width but remove extra chrome */
+    padding: 0;
+    border-radius: 0;
+    min-height: 0;
   }
   .ad-banner iframe {
     max-width: 100% !important;
@@ -473,14 +491,20 @@ body {
 
 .hero-description {
   text-align: left;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1rem;
 }
 
 .hero-description p {
-  font-size: 1.1rem;
-  line-height: 1.7;
+  /* slightly smaller paragraphs and clamp lines so hero is compact */
+  font-size: 1rem;
+  line-height: 1.5;
   color: var(--text-secondary);
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.6rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .hero-description p:last-child {
@@ -492,23 +516,24 @@ body {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .refresh-btn {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   background: var(--gradient);
   color: white;
-  padding: 18px 36px;
-  border-radius: 50px;
+  /* smaller button to reduce hero height */
+  padding: 10px 18px;
+  border-radius: 28px;
   border: none;
   cursor: pointer;
   font-weight: 700;
-  font-size: 1.1rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 32px var(--shadow-colored);
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px var(--shadow-colored);
   position: relative;
   overflow: hidden;
 }
@@ -601,13 +626,16 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  padding: 1.5rem;
-  border-radius: 20px;
-  box-shadow: 0 16px 48px var(--shadow-lg);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  /* use hero content width and center the search box */
+  max-width: var(--hero-content-max);
+  margin: 0 auto;
+  padding: 0.9rem;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px var(--shadow-lg);
   border: 1px solid var(--glass-border);
   position: relative;
   overflow: hidden;
@@ -648,16 +676,16 @@ body {
 
 .search-box input {
   width: 100%;
-  padding: 14px 20px 14px 50px;
-  border: 2px solid var(--border);
-  border-radius: 18px;
+  padding: 10px 14px 10px 42px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
   background: var(--background-card);
   color: var(--text-primary);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px var(--shadow);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 10px var(--shadow);
 }
 
 .search-box input:focus {
@@ -681,23 +709,23 @@ body {
 .filter-options {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.6rem;
   flex-shrink: 0;
 }
 
 .filter-options select {
-  padding: 12px 16px;
-  border: 2px solid var(--border);
-  border-radius: 14px;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
   background: var(--background-card);
   color: var(--text-primary);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px var(--shadow);
-  min-width: 160px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 10px var(--shadow);
+  min-width: 120px;
 }
 
 .filter-options select:focus {
@@ -721,18 +749,18 @@ body {
 }
 
 .view-toggle {
-  padding: 16px;
-  border: 2px solid var(--border);
-  border-radius: 16px;
+  padding: 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
   background: var(--background-card);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   color: var(--text-secondary);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px var(--shadow);
-  width: 52px;
-  height: 52px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 10px var(--shadow);
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -849,29 +877,32 @@ body {
 /* Videos Grid */
 .videos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: clamp(1rem, 2vw, 2rem);
-  margin-bottom: 4rem;
+  /* center and constrain grid width to match hero content */
+  max-width: var(--hero-content-max);
+  margin: 0 auto 3.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: clamp(0.8rem, 1.6vw, 1.5rem);
 }
 
 /* Featured Video */
 .featured-video-section {
-  margin: 0 0 2.5rem 0;
   position: relative;
+  max-width: var(--hero-content-max);
+  margin: 0 auto 1.8rem;
   animation: fadeInUp 0.6s ease;
 }
 
 .featured-video-card {
   display: grid;
-  grid-template-columns: minmax(0, 520px) 1fr;
-  gap: 2rem;
+  grid-template-columns: minmax(0, 440px) 1fr;
+  gap: 1.25rem;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  border-radius: 28px;
-  padding: 2.25rem 2.25rem 2rem;
-  box-shadow: 0 24px 64px var(--shadow-lg);
-  backdrop-filter: blur(26px) saturate(180%);
-  -webkit-backdrop-filter: blur(26px) saturate(180%);
+  border-radius: 18px;
+  padding: 1.5rem 1.6rem 1.4rem;
+  box-shadow: 0 16px 42px var(--shadow-lg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
   overflow: hidden;
   position: relative;
 }
@@ -1025,7 +1056,7 @@ body {
 @media (max-width: 1024px) {
   .featured-video-card {
     grid-template-columns: 1fr;
-    padding: 1.75rem 1.75rem 1.5rem;
+    padding: 1.3rem 1.3rem 1.2rem;
   }
   .featured-content {
     margin-top: 1rem;
@@ -1167,14 +1198,14 @@ body {
 
 .video-card {
   background: var(--background-card);
-  border-radius: 24px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 12px 40px var(--shadow-lg);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px var(--shadow-lg);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   border: 1px solid var(--glass-border);
   position: relative;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 
 .video-card::before {
@@ -1203,7 +1234,7 @@ body {
 .video-thumbnail {
   position: relative;
   width: 100%;
-  height: 220px;
+  height: 200px;
   background: var(--gradient-surface);
   display: flex;
   align-items: center;
@@ -1252,7 +1283,7 @@ body {
 }
 
 .video-info {
-  padding: 2rem;
+  padding: 1.25rem 1.25rem 1rem;
   position: relative;
   z-index: 2;
 }
@@ -1286,9 +1317,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 0.75rem;
   background: var(--surface);
-  margin: -1rem -2rem -2rem -2rem;
+  margin: -0.75rem -1.25rem -1.25rem -1.25rem;
   border-top: 1px solid var(--border-light);
 }
 
@@ -1319,6 +1350,66 @@ body {
   text-align: center;
   padding: 4rem 0;
   color: var(--text-secondary);
+}
+
+/* FAQ Styles */
+.faq {
+  margin: 2rem 0 2.5rem;
+}
+.faq .container {
+  max-width: var(--hero-content-max);
+  margin: 0 auto;
+}
+.faq-intro {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.faq-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.95rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-toggle svg {
+  color: var(--text-secondary);
+  transition: transform 0.25s ease;
+}
+.faq-item[open] .faq-toggle svg {
+  transform: rotate(180deg);
+  color: var(--primary-color);
+}
+.faq-body {
+  padding: 0.75rem 1rem 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+  .faq-item summary {
+    padding: 0.8rem 0.8rem;
+  }
+  .faq-body {
+    padding: 0.6rem 0.8rem;
+  }
 }
 
 .error-content i {
@@ -1689,6 +1780,43 @@ body {
 
   .container {
     padding: 0 15px;
+  }
+}
+
+/* Tuned hero widths for common breakpoints */
+@media (max-width: 1024px) and (min-width: 769px) {
+  /* Tablet — narrower card */
+  :root {
+    --hero-max-width: 760px;
+    --hero-content-max: 680px;
+  }
+  .hero {
+    padding: 1rem 0.1rem;
+    margin: 0.9rem auto 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile — full width with small gutters */
+  :root {
+    --hero-max-width: calc(100% - 32px);
+    --hero-content-max: calc(100% - 36px);
+  }
+  .hero {
+    padding: 0.9rem 0.35rem;
+    margin: 0.6rem auto 0.9rem;
+    border-radius: 14px;
+  }
+  .hero-content {
+    padding: 0 6px;
+  }
+}
+
+@media (min-width: 1400px) {
+  /* Large desktops — allow slightly wider hero while keeping it centered */
+  :root {
+    --hero-max-width: 1100px;
+    --hero-content-max: 900px;
   }
 }
 

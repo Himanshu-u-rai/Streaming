@@ -147,25 +147,46 @@
 
     <main class="main">
       <div class="container">
-        <!-- Top Advertisement Banner -->
-        <section class="ad-banner" id="topAd" aria-label="Advertisement">
-          <div class="ad-inner">
-            <script type="text/javascript">
-              atOptions = {
-                key: "c8a6456b1d198108c008f37c86c60f46",
-                format: "iframe",
-                height: 60,
-                width: 468,
-                params: {},
-              };
-            </script>
-            <script
-              type="text/javascript"
-              src="//herringbucket.com/c8a6456b1d198108c008f37c86c60f46/invoke.js"
-            ></script>
-            <noscript><div class="ad-fallback">Advertisement</div></noscript>
-          </div>
-        </section>
+        <!-- Top Advertisement Row -->
+        <div class="ad-row-player">
+          <section class="ad-banner" id="topAd" aria-label="Advertisement">
+            <div class="ad-inner">
+              <script type="text/javascript">
+                atOptions = {
+                  key: "c8a6456b1d198108c008f37c86c60f46",
+                  format: "iframe",
+                  height: 60,
+                  width: 468,
+                  params: {},
+                };
+              </script>
+              <script
+                type="text/javascript"
+                src="//herringbucket.com/c8a6456b1d198108c008f37c86c60f46/invoke.js"
+              ></script>
+              <noscript><div class="ad-fallback">Advertisement</div></noscript>
+            </div>
+          </section>
+
+          <section class="ad-banner" id="midAd" aria-label="Advertisement">
+            <div class="ad-inner">
+              <script type="text/javascript">
+                atOptions = {
+                  key: "c8a6456b1d198108c008f37c86c60f46",
+                  format: "iframe",
+                  height: 60,
+                  width: 468,
+                  params: {},
+                };
+              </script>
+              <script
+                type="text/javascript"
+                src="//herringbucket.com/c8a6456b1d198108c008f37c86c60f46/invoke.js"
+              ></script>
+              <noscript><div class="ad-fallback">Advertisement</div></noscript>
+            </div>
+          </section>
+        </div>
 
         <div class="player-container">
           <div class="video-player-section">
@@ -231,57 +252,52 @@
           </div>
         </div>
 
-        <!-- Mid-page Advertisement (after player before show info) -->
-        <section
-          class="ad-banner ad-banner-mid"
-          id="midAd"
-          aria-label="Advertisement"
-        >
-          <div class="ad-inner">
-            <script type="text/javascript">
-              atOptions = {
-                key: "c8a6456b1d198108c008f37c86c60f46",
-                format: "iframe",
-                height: 60,
-                width: 468,
-                params: {},
-              };
-            </script>
-            <script
-              type="text/javascript"
-              src="//herringbucket.com/c8a6456b1d198108c008f37c86c60f46/invoke.js"
-            ></script>
-            <noscript><div class="ad-fallback">Advertisement</div></noscript>
-          </div>
-        </section>
-
         <!-- Bigg Boss 19 Information Section -->
         <div class="biggboss-info-section">
           <div class="info-container">
-            <div class="info-header">
-              <h2 class="info-title">About Bigg Boss 19</h2>
-              <p class="info-subtitle">
-                India's Most Popular Reality Show Returns
-              </p>
-            </div>
-
             <div class="info-content">
-              <div class="info-text">
-                <p>
-                  Bigg Boss 19 is the latest season of India's biggest celebrity
-                  reality show. Contestants live together under 24/7 cameras,
-                  face tasks, nominations and eliminations, all guided by Bigg
-                  Boss and hosted by Salman Khan.
-                </p>
-                <p>
-                  Expect daily drama, alliances, surprise twists and Weekend Ka
-                  Vaar highlights as they compete to win the season.
-                </p>
-                <div class="schedule-text">
-                  <h3>Watch Schedule:</h3>
-                  <p>
-                    <strong>Mon–Fri:</strong> 10:00 PM IST &nbsp;|&nbsp;
-                    <strong>Sat–Sun:</strong> 9:30 PM IST (Weekend Ka Vaar)
+              <div class="info-grid">
+                <!-- What to Expect -->
+                <div class="info-card">
+                  <div class="info-card-icon">
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <h3>What to Expect</h3>
+                  <ul class="info-list">
+                    <li>
+                      <i class="fas fa-check-circle"></i> Alliances, twists, and
+                      nomination drama every night.
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Salman Khan drops
+                      Weekend Ka Vaar verdicts and surprises.
+                    </li>
+                    <li>
+                      <i class="fas fa-check-circle"></i> Daily tasks push
+                      contestants to their limits.
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Broadcast Schedule -->
+                <div class="info-card">
+                  <div class="info-card-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                  </div>
+                  <h3>Broadcast Schedule</h3>
+                  <div class="schedule-grid">
+                    <div class="schedule-item">
+                      <strong>Mon–Fri:</strong>
+                      <span>10:00 PM IST</span>
+                    </div>
+                    <div class="schedule-item">
+                      <strong>Sat–Sun:</strong>
+                      <span>9:30 PM IST (Weekend Ka Vaar)</span>
+                    </div>
+                  </div>
+                  <p class="streaming-note">
+                    <i class="fas fa-tv"></i>
+                    Catch live feeds and extended highlights on JioCinema.
                   </p>
                 </div>
               </div>

@@ -700,6 +700,7 @@ function createParticleEffect() {
 document.addEventListener("DOMContentLoaded", function () {
   setupSearchAndFilter();
   createParticleEffect();
+  setupFAQAccordion();
 
   // Add smooth scroll behavior
   document.documentElement.style.scrollBehavior = "smooth";
@@ -717,6 +718,41 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+// FAQ accordion: make details act like an accessible accordion (one open at a time)
+function setupFAQAccordion() {
+  const faqItems = document.querySelectorAll(".faq-item");
+  if (!faqItems || !faqItems.length) return;
+
+  faqItems.forEach((item) => {
+    // set ARIA state initially
+    item.setAttribute("role", "region");
+    const summary = item.querySelector("summary");
+    if (!summary) return;
+
+    // toggle aria-expanded on click
+    summary.addEventListener("click", (e) => {
+      // When opening, close other items
+      if (!item.hasAttribute("open")) {
+        faqItems.forEach((other) => {
+          if (other !== item && other.hasAttribute("open"))
+            other.removeAttribute("open");
+        });
+        item.setAttribute("open", "");
+      } else {
+        item.removeAttribute("open");
+      }
+    });
+
+    // keyboard support on summary (Enter/Space)
+    summary.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        summary.click();
+      }
+    });
+  });
+}
 
 // Add CSS for list view
 const additionalStyles = `
